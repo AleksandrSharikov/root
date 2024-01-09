@@ -1,0 +1,10 @@
+server:
+  port: 8081
+
+spring:
+  kafka:
+    consumer:
+      group-id: group-1
+
+topic:
+  name: tg.stat

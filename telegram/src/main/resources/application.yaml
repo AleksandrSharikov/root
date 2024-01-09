@@ -1,0 +1,12 @@
+server:
+  port: 8082
+
+topic:
+  name: tg.stat
+
+bot:
+  name: h_stat
+
+spring:
+  config:
+    import: login.properties
