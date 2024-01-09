@@ -23,4 +23,12 @@ public class IncomeProcessor {
 
     }
 
+    public List<String> getList(long id){
+        return inUse.get(id);
+    }
+
+    public void closeId(long id){
+        inUse.remove(id);
+    }
+
 }
