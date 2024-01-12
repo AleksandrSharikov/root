@@ -1,5 +1,6 @@
 package com.hstat.tgb.telegram;
 
+import com.hstat.tgb.messagesProcessing.IncomeProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,18 +13,21 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Component
 public class Bot extends TelegramLongPollingBot {
     private final BotConfig botConfig;
+    private final IncomeProcessor incomeProcessor;
 
     @Autowired
-    public Bot(BotConfig botConfig) {
+    public Bot(BotConfig botConfig, IncomeProcessor incomeProcessor) {
         this.botConfig = botConfig;
+        this.incomeProcessor = incomeProcessor;
     }
 
     @Override
     public void onUpdateReceived(Update update) {
-
+        log.info("Received update: " + update.toString());
+        incomeProcessor.process(update);
     }
 
-    private void sendMessage(Long chatId, String textToSend) {
+    public void sendMessage(Long chatId, String textToSend) {
         if (textToSend.length() > 3900) {
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(String.valueOf(chatId));

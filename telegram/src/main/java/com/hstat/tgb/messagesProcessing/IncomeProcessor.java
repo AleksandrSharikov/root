@@ -1,34 +1,37 @@
 package com.hstat.tgb.messagesProcessing;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Lookup;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
+@Slf4j
 @Service
 public class IncomeProcessor {
-    private final Map<Long, List<String>> inUse;
 
-    public IncomeProcessor() {
-        this.inUse = new ConcurrentHashMap<>();
+    private final AnswerMap answerMap;
+    private final ApplicationContext applicationContext;
+    @Lookup
+    private Dialog getDialog(long id){
+        return applicationContext.getBean(Dialog.class, id);
     }
 
-    public void process(Update update){
-        if(inUse.containsKey(update.getMessage().getChatId())){
-            inUse.get(update.getMessage().getChatId()).add(update.getMessage().getText());
-        } else {
-            inUse.put(update.getMessage().getChatId(), new ArrayList<>(List.of(update.getMessage().getText())));
+    @Autowired
+    public IncomeProcessor(AnswerMap answerMap, ApplicationContext applicationContext) {
+        this.answerMap = answerMap;
+        this.applicationContext = applicationContext;
+    }
+
+    public void process(Update update) {
+        log.info("Update is in the processor");
+        if (answerMap.mergeUpdate(update)) {
+            log.info("New thread shall start");
+            Dialog dialog = getDialog(update.getMessage().getChatId());
+            Thread thread = new Thread(dialog,
+                    update.getMessage().getChatId().toString());
+            thread.start();
         }
-
     }
-
-    public List<String> getList(long id){
-        return inUse.get(id);
-    }
-
-    public void closeId(long id){
-        inUse.remove(id);
-    }
-
 }
