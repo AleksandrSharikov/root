@@ -7,12 +7,17 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Slf4j
 @Service
 public class IncomeProcessor {
 
     private final AnswerMap answerMap;
     private final ApplicationContext applicationContext;
+
+    private final Map<Long, Dialog> threadMap = new HashMap<>();
     @Lookup
     private Dialog getDialog(long id){
         return applicationContext.getBean(Dialog.class, id);
@@ -31,7 +36,10 @@ public class IncomeProcessor {
             Dialog dialog = getDialog(update.getMessage().getChatId());
             Thread thread = new Thread(dialog,
                     update.getMessage().getChatId().toString());
+            threadMap.put(update.getMessage().getChatId(), dialog);
             thread.start();
+        } else {
+            threadMap.get(update.getMessage().getChatId()).notifyThread();
         }
     }
 }

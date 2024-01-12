@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Dialog implements Runnable {
+
+    private final Object lock;
     private final long chatId;
     private final DialogQuestions questions;
     private final AnswerMap answerMap;
@@ -26,6 +28,7 @@ public class Dialog implements Runnable {
         this.questionNumber = -1;
         this.qq = questions.getQuantity();
         this.outcomeProcessor = outcomeProcessor;
+        this.lock = new Object();
     }
 
     @Override
@@ -48,8 +51,8 @@ public class Dialog implements Runnable {
                 }
             }
             if(!exit){
-                synchronized (this){
-                    wait(5_000);
+                synchronized (lock){
+                    lock.wait();
                 }
             }
             } catch (InterruptedException e) {
@@ -62,5 +65,9 @@ public class Dialog implements Runnable {
         log.info("Dialog for id:" + chatId + " finished");
     }
 
-
+    public void notifyThread() {
+        synchronized (lock) {
+            lock.notify();
+        }
+    }
 }
