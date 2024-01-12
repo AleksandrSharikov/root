@@ -25,7 +25,7 @@ public class AnswerMap {
             log.info("Map record updated");
             return false;
         } else {
-            log.info("Add new record to map");
+            log.info("Added the new record to map");
             inUse.put(update.getMessage().getChatId(), new LinkedList<>(List.of(update.getMessage().getText())));
             return true;
         }

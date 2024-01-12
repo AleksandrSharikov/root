@@ -65,9 +65,12 @@ public class Dialog implements Runnable {
         log.info("Dialog for id:" + chatId + " finished");
     }
 
-    public void notifyThread() {
+
+
+    public boolean notifyThread() {
         synchronized (lock) {
             lock.notify();
+            return questionNumber == qq - 1;
         }
     }
 }
