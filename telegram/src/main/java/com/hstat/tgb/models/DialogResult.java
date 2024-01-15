@@ -2,6 +2,9 @@ package com.hstat.tgb.models;
 
 import java.util.Date;
 
+/**
+ * Set of answers date and id from dialog
+ */
 public class DialogResult {
 
     private final long chatId;

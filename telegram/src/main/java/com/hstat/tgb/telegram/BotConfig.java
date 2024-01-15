@@ -3,6 +3,9 @@ package com.hstat.tgb.telegram;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Bot config
+ */
 @Configuration
 public class BotConfig {
 
@@ -11,7 +14,7 @@ public class BotConfig {
     @Value("${bot.token}")
     private String token;
 
-    private final String version = "0.0 Very beginning";
+    private final String version = "1.0 Very beginning";
 
     public String getBotName() {
         return botName;

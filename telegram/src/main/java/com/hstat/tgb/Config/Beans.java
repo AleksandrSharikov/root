@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
+/**
+ * Creating of  necessary beans
+ */
 @Slf4j
 @Configuration
 public class Beans {
@@ -26,7 +29,7 @@ public class Beans {
     }
 
 
-
+// Creation of new dialog bean. Autowire all necessary services
     @Bean
     @Scope("prototype")
     public Dialog getDialog(long chatId) {

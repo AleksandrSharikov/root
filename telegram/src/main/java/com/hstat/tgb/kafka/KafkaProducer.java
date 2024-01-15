@@ -12,6 +12,10 @@ import org.springframework.kafka.core.ProducerFactory;
 
 import java.util.Map;
 
+/**
+ * creation of the Kafka producer
+ */
+
 @Configuration
 public class KafkaProducer {
     private final KafkaProperties kafkaProperties;

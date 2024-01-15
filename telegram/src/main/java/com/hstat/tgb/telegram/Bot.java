@@ -9,6 +9,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+/**
+ * The telegram bot. Receives and sands messages.
+ */
+
 @Slf4j
 @Component
 public class Bot extends TelegramLongPollingBot {
@@ -21,12 +25,21 @@ public class Bot extends TelegramLongPollingBot {
         this.incomeProcessor = incomeProcessor;
     }
 
+    /**
+     * Receive message and send it to processor
+     * @param update
+     */
     @Override
     public void onUpdateReceived(Update update) {
         log.info("Received update: " + update.toString());
         incomeProcessor.process(update);
     }
 
+    /**
+     * Sands message to certain chatId
+     * @param chatId
+     * @param textToSend
+     */
     public void sendMessage(Long chatId, String textToSend) {
         if (textToSend.length() > 3900) {
             SendMessage sendMessage = new SendMessage();

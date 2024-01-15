@@ -5,7 +5,9 @@ import com.hstat.tgb.models.DialogResult;
 import com.hstat.tgb.outcomeProcessor.OutcomeProcessor;
 import lombok.extern.slf4j.Slf4j;
 
-// The class of runnable to create the thread for dialog
+/**
+ *  The class of runnable to create the thread for dialog
+ */
 @Slf4j
 public class Dialog implements Runnable {
 
@@ -38,7 +40,8 @@ public class Dialog implements Runnable {
         while(!exit){
             try {
             log.info("Question number: " + questionNumber);
-            while(!answerMap.getList(chatId).isEmpty()){                    // process all records inn queue. Probably redundant.  Can be changed to if()
+        // process all records inn queue. Probably redundant. Can be changed to if()
+            while(!answerMap.getList(chatId).isEmpty()){
                 result.setRes(questionNumber++,answerMap.getList(chatId).poll());
                 if(questionNumber < qq) {
                     outcomeProcessor.sendMessage(chatId, questions.getQuestion(questionNumber));
@@ -66,7 +69,10 @@ public class Dialog implements Runnable {
     }
 
 
-
+    /**
+     * notify thread, when new message comes
+     * @return return if the next question is last, to delete the thread from map inUse before closing
+     */
     public boolean notifyThread() {
         synchronized (lock) {
             lock.notify();

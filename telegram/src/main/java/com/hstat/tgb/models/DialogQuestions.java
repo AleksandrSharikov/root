@@ -2,6 +2,9 @@ package com.hstat.tgb.models;
 
 import java.util.List;
 
+/**
+ * Set of questions for dialog
+ */
 public class DialogQuestions {
     private final List<String> questions = List.of(
             "What meds did you have?",

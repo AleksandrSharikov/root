@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+/**
+ * Kafka message sender
+ */
+
 @Component
 public class KafkaSender {
 
@@ -23,6 +27,7 @@ public class KafkaSender {
             this.objectMapper = objectMapper;
         }
 
+        // Send message to  the only topic
         public String sendMessage(StatSend statSend){
             try {
                 String statAsMessage = objectMapper.writeValueAsString(statSend);

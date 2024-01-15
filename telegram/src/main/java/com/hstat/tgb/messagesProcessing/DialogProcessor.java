@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
-
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * The class to start new threads for Dialogs and maintain them
+ */
 @Slf4j
 @Service
 public class DialogProcessor {
@@ -17,7 +20,10 @@ public class DialogProcessor {
     private final AnswerMap answerMap;
     private final ApplicationContext applicationContext;
 
+    //  map with runnables for the threads
     private final Map<Long, Dialog> threadMap = new HashMap<>();
+
+    //Creating a bean of Dialog
     @Lookup
     private Dialog getDialog(long id){
         return applicationContext.getBean(Dialog.class, id);
@@ -29,6 +35,11 @@ public class DialogProcessor {
         this.applicationContext = applicationContext;
     }
 
+    /**
+     * If chatId is new, create a new thread for it, else notify existing one, if it is last answer, remove
+     * the thread  from the map
+     * @param update
+     */
     public void process(Update update) {
         log.info("Update is in the processor");
         if (answerMap.mergeUpdate(update)) {
@@ -45,7 +56,10 @@ public class DialogProcessor {
         }
     }
 
-    public Map<Long, Dialog> getThreadMap() {
-        return threadMap;
+
+    // Check if there is thread with certain id im the map
+    public boolean isInThreadMap(Long id){
+        return threadMap.containsKey(id);
     }
+
 }
