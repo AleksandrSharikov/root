@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changeset/crate-user.sql
+  - include:
+      file: db/changelog/changeset/create-tg-index.sql

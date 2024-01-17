@@ -1,8 +1,8 @@
-package com.hstat.tgb.kafka;
+package com.hstat.user.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hstat.dtoModels.StatSend;
+import com.hstat.dtoModels.tgMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -28,9 +28,9 @@ public class KafkaSender {
         }
 
         // Send message to  the only topic
-        public String sendMessage(String topicName, StatSend statSend){
+        public String sendMessage(String topicName, tgMessage message){
             try {
-                String statAsMessage = objectMapper.writeValueAsString(statSend);
+                String statAsMessage = objectMapper.writeValueAsString(message);
                 kafkaTemplate.send(topicName, statAsMessage);
             }
             catch (JsonProcessingException e){

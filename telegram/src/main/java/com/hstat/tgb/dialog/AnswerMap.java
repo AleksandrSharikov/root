@@ -1,4 +1,4 @@
-package com.hstat.tgb.messagesProcessing;
+package com.hstat.tgb.dialog;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

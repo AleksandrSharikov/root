@@ -1,0 +1,9 @@
+server:
+  port: 8083
+
+spring:
+  liquibase:
+    change-log:
+      db/changelog/channgelog-master.yaml
+topic:
+  name: tg.send

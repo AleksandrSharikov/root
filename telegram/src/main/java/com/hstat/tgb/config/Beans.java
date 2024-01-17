@@ -1,7 +1,8 @@
-package com.hstat.tgb.Config;
+package com.hstat.tgb.config;
 
-import com.hstat.tgb.messagesProcessing.AnswerMap;
-import com.hstat.tgb.messagesProcessing.Dialog;
+import com.hstat.tgb.mailKafka.DialogSender;
+import com.hstat.tgb.dialog.AnswerMap;
+import com.hstat.tgb.dialog.Dialog;
 import com.hstat.tgb.models.DialogQuestions;
 import com.hstat.tgb.outcomeProcessor.OutcomeProcessor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +21,11 @@ public class Beans {
     private final DialogQuestions questions;
     private final AnswerMap answerMap;
     private final OutcomeProcessor outcomeProcessor;
+    private final DialogSender dialogSender;
 
     @Autowired
-    public Beans(AnswerMap answerMap, OutcomeProcessor outcomeProcessor) {
+    public Beans(AnswerMap answerMap, OutcomeProcessor outcomeProcessor, DialogSender dialogSender) {
+        this.dialogSender = dialogSender;
         this.questions = new DialogQuestions();
         this.answerMap = answerMap;
         this.outcomeProcessor = outcomeProcessor;
@@ -34,7 +37,7 @@ public class Beans {
     @Scope("prototype")
     public Dialog getDialog(long chatId) {
         log.info("New Dialog have been required");
-        return new Dialog(chatId, questions, answerMap, outcomeProcessor);
+        return new Dialog(chatId, questions, answerMap, dialogSender, outcomeProcessor);
     }
 
 }

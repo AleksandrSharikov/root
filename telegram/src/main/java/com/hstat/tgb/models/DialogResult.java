@@ -1,6 +1,8 @@
 package com.hstat.tgb.models;
 
-import java.util.Date;
+
+import com.hstat.dtoModels.StatSend;
+import java.time.LocalDateTime;
 
 /**
  * Set of answers date and id from dialog
@@ -8,7 +10,7 @@ import java.util.Date;
 public class DialogResult {
 
     private final long chatId;
-    private Date created;
+    private LocalDateTime created;
     private String med;
     private int feel;
 
@@ -18,11 +20,22 @@ public class DialogResult {
 
     public void setRes(int i, String res){
         switch (i) {
-            case -1 -> this.created = new Date();
+            case -1 -> this.created = LocalDateTime.now();
             case 0 -> this.med = res;
             case 1 -> this.feel = Integer.parseInt(res);
         }
     }
+
+    public StatSend toDto(){
+        return new StatSend(
+                chatId,
+                created,
+                med,
+                feel
+        );
+    }
+
+
 
     @Override
     public String toString() {

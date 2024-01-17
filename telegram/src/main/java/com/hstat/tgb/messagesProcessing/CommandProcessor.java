@@ -1,5 +1,6 @@
 package com.hstat.tgb.messagesProcessing;
 
+import com.hstat.tgb.dialog.DialogProcessor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 

@@ -45,3 +45,9 @@ services:
     build:
       context: ./telegram
       dockerfile: Dockerfile
+  user:
+    build:
+      context: ./user
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres

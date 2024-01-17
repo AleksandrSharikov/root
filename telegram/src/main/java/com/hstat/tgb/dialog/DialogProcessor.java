@@ -1,5 +1,7 @@
-package com.hstat.tgb.messagesProcessing;
+package com.hstat.tgb.dialog;
 
+import com.hstat.tgb.dialog.AnswerMap;
+import com.hstat.tgb.dialog.Dialog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;

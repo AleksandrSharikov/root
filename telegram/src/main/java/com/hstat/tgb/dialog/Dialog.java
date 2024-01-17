@@ -1,5 +1,6 @@
-package com.hstat.tgb.messagesProcessing;
+package com.hstat.tgb.dialog;
 
+import com.hstat.tgb.mailKafka.DialogSender;
 import com.hstat.tgb.models.DialogQuestions;
 import com.hstat.tgb.models.DialogResult;
 import com.hstat.tgb.outcomeProcessor.OutcomeProcessor;
@@ -16,17 +17,24 @@ public class Dialog implements Runnable {
     private final DialogQuestions questions;
     private final AnswerMap answerMap;      // Map of answers like queue
     private final DialogResult result;
+    private final DialogSender dialogSender;
     private int questionNumber;
     private final int qq;
     private final OutcomeProcessor outcomeProcessor;
     volatile boolean exit = false;
 
 
-    public Dialog(long chatId, DialogQuestions questions, AnswerMap answerMap, OutcomeProcessor outcomeProcessor) {
+    public Dialog(long chatId,
+                  DialogQuestions questions,
+                  AnswerMap answerMap,
+                  DialogSender dialogSender,
+                  OutcomeProcessor outcomeProcessor)
+    {
         this.chatId = chatId;
         this.questions = questions;
         this.answerMap = answerMap;
         this.result = new DialogResult(chatId);
+        this.dialogSender = dialogSender;
         this.questionNumber = -1;
         this.qq = questions.getQuantity();
         this.outcomeProcessor = outcomeProcessor;
@@ -65,6 +73,7 @@ public class Dialog implements Runnable {
                 outcomeProcessor.sendMessage(chatId, "Entrance error. Data reset");
             }
         }
+        dialogSender.send(result.toDto());
         log.info("Dialog for id:" + chatId + " finished");
     }
 

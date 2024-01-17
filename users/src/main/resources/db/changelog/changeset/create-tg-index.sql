@@ -1,0 +1,1 @@
+CREATE INDEX idx_telegram_id ON user_table (telegram_id);

@@ -1,8 +1,9 @@
 package com.hstat.tgb.dev;
 
-import com.hstat.tgb.dto.StatSend;
+import com.hstat.dtoModels.StatSend;
 import com.hstat.tgb.kafka.KafkaSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,8 @@ import java.util.Date;
 @RequestMapping("/dev")
 public class testController {
 
+    @Value("${topic.name}")
+    private String tgStatTopic;
     private final KafkaSender kafkaSender;
     @Autowired
     public testController(KafkaSender kafkaSender) {
@@ -31,7 +34,7 @@ public class testController {
      @PostMapping("/kaf")
     public String test(@RequestBody StatSend statSend){
         System.out.println("Received statSend " + statSend);
-        return kafkaSender.sendMessage(statSend);
+        return kafkaSender.sendMessage(tgStatTopic, statSend);
     }
 
 
