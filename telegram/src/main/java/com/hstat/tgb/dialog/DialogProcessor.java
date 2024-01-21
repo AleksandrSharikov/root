@@ -1,7 +1,6 @@
 package com.hstat.tgb.dialog;
 
-import com.hstat.tgb.dialog.AnswerMap;
-import com.hstat.tgb.dialog.Dialog;
+import com.hstat.tgb.dialogInterface.DialogProcessorInt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
@@ -17,7 +16,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class DialogProcessor {
+public class DialogProcessor implements DialogProcessorInt {
 
     private final AnswerMap answerMap;
     private final ApplicationContext applicationContext;
@@ -60,8 +59,13 @@ public class DialogProcessor {
 
 
     // Check if there is thread with certain id im the map
-    public boolean isInThreadMap(Long id){
+    public boolean isInProcess(long id){
         return threadMap.containsKey(id);
+    }
+
+    @Override
+    public void stop(long id) {
+        threadMap.remove(id);
     }
 
 }

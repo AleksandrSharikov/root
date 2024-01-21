@@ -1,5 +1,6 @@
 package com.hstat.tgb.dialog;
 
+import com.hstat.tgb.dialogInterface.ActiveMapHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -12,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 @Service
-public class AnswerMap {
+public class AnswerMap implements ActiveMapHandler {
     private final Map<Long, Deque<String>> inUse = new ConcurrentHashMap<>();
 
     // Get messages for the certain chatId
@@ -20,6 +21,7 @@ public class AnswerMap {
         return inUse.get(id);
     }
     // Close id and remove it from the map
+    @Override
     public void closeId(long id){
         inUse.remove(id);
     }

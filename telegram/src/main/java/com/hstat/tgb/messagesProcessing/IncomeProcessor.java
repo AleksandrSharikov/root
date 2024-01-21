@@ -1,6 +1,8 @@
 package com.hstat.tgb.messagesProcessing;
 
-import com.hstat.tgb.dialog.DialogProcessor;
+import com.hstat.tgb.dialogInterface.DialogProcessorInt;
+import com.hstat.tgb.dialogInterface.ProcessorsList;
+import com.hstat.tgb.userService.ActiveUsersHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -12,12 +14,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Slf4j
 @Service
 public class IncomeProcessor {
-    private final DialogProcessor dialogProcessor;
     private final CommandProcessor commandProcessor;
+    private final ProcessorsList processorsList;
+    private final ActiveUsersHandler activeUsersHandler;
 
-    public IncomeProcessor(DialogProcessor dialogProcessor, CommandProcessor commandProcessor) {
-        this.dialogProcessor = dialogProcessor;
+    public IncomeProcessor(CommandProcessor commandProcessor, ProcessorsList processorsList, ActiveUsersHandler activeUsersHandler) {
+        this.processorsList = processorsList;
         this.commandProcessor = commandProcessor;
+        this.activeUsersHandler = activeUsersHandler;
     }
 
     /**
@@ -25,12 +29,33 @@ public class IncomeProcessor {
      * @param update
      */
     public void process(Update update){
+        if(!activeUsersHandler.isActive(update.getMessage().getChatId())){
+            if(activeUsersHandler.askUser(update.getMessage().getChatId())) {
+                activeUsersHandler.add(update.getMessage().getChatId());
+            } else {
+                processorsList.getAllProcessors().get(1).process(update);
+            }
+        }
+
+        boolean found = false;
         if (update.getMessage().getText().startsWith("/")){ // is it a command
             commandProcessor.process(update);
-        } else if(dialogProcessor.isInThreadMap(update.getMessage().getChatId())) {  // is there a dialog opened
-            dialogProcessor.process(update);
+            found = true;
         } else {
-            log.info("Unsorted update: " + update.getMessage().getText());
+            for(DialogProcessorInt processor : processorsList.getAllProcessors()){
+                if (processor.isInProcess(update.getMessage().getChatId())){
+                    if(found){
+                        log.warn("ID in more then one maps simultaneously");
+                    } else {
+                        processor.process(update);
+                        found = true;
+                    }
+                }
+            }
+            }
+        if(!found){
+            log.info(String.format("Unsorted update from id = %d \n text = %s",
+                    update.getMessage().getChatId(), update.getMessage().getText()));
         }
     }
 

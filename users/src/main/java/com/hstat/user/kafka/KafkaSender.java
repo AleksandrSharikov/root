@@ -2,9 +2,8 @@ package com.hstat.user.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hstat.dtoModels.tgMessage;
+import com.hstat.dtoModels.TgMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +13,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class KafkaSender {
-
-        @Value("${topic.name}")
-        private String tgStatTopic;
 
         private final ObjectMapper objectMapper;
         private final KafkaTemplate<String, String> kafkaTemplate;
@@ -28,7 +24,7 @@ public class KafkaSender {
         }
 
         // Send message to  the only topic
-        public String sendMessage(String topicName, tgMessage message){
+        public String sendMessage(String topicName, TgMessage message){
             try {
                 String statAsMessage = objectMapper.writeValueAsString(message);
                 kafkaTemplate.send(topicName, statAsMessage);

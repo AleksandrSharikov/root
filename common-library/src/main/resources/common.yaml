@@ -1,0 +1,6 @@
+url:
+  base-url: http://localhost
+  port:
+    user: 8083
+    tg: 8082
+    stat: 8081

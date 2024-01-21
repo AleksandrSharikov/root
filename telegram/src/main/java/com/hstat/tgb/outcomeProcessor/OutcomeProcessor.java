@@ -1,5 +1,6 @@
 package com.hstat.tgb.outcomeProcessor;
 
+import com.hstat.dtoModels.TgMessage;
 import com.hstat.tgb.telegram.Bot;
 import org.springframework.stereotype.Service;
 
@@ -17,4 +18,5 @@ public class OutcomeProcessor {
     public void sendMessage(long chatId, String message){
         bot.sendMessage(chatId, message);
     }
+    public void sendMessage(TgMessage message) { bot.sendMessage(message.chatId(), message.message());}
 }
