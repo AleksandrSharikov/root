@@ -2,8 +2,8 @@ package com.hstat.tgb.dialogInterface;
 
 import com.hstat.tgb.registration.RegMap;
 import com.hstat.tgb.registration.RegProcessor;
-import com.hstat.tgb.dialog.AnswerMap;
-import com.hstat.tgb.dialog.DialogProcessor;
+import com.hstat.tgb.survey.AnswerMap;
+import com.hstat.tgb.survey.SurveyProcessor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -15,22 +15,22 @@ import java.util.List;
 public class ProcessorsList {
     private final AnswerMap answerMap;
     private final RegMap regMap;
-    private final DialogProcessor dialogProcessor;
+    private final SurveyProcessor surveyProcessor;
     private final RegProcessor regProcessor;
 
-    private final List<ActiveMapHandler> allMaps;
+    private final List<MessageMapHandler> allMaps;
     private final List<DialogProcessorInt> allProcessors;
 
-    public ProcessorsList(AnswerMap answerMap, RegMap regMap, DialogProcessor dialogProcessor, RegProcessor regProcessor) {
+    public ProcessorsList(AnswerMap answerMap, RegMap regMap, SurveyProcessor surveyProcessor, RegProcessor regProcessor) {
         this.answerMap = answerMap;
         this.regMap = regMap;
-        this.dialogProcessor = dialogProcessor;
+        this.surveyProcessor = surveyProcessor;
         this.regProcessor = regProcessor;
         this.allMaps = List.of(answerMap, regMap);
-        this.allProcessors = List.of(dialogProcessor, regProcessor);
+        this.allProcessors = List.of(surveyProcessor, regProcessor);
     }
 
-    public List<ActiveMapHandler> getAllMaps() {
+    public List<MessageMapHandler> getAllMaps() {
         return allMaps;
     }
 

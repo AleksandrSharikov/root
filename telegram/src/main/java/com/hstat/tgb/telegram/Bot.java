@@ -1,6 +1,6 @@
 package com.hstat.tgb.telegram;
 
-import com.hstat.tgb.messagesProcessing.IncomeProcessor;
+import com.hstat.tgb.incomeProcessing.IncomeProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

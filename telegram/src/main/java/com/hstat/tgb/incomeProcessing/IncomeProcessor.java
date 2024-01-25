@@ -1,4 +1,4 @@
-package com.hstat.tgb.messagesProcessing;
+package com.hstat.tgb.incomeProcessing;
 
 import com.hstat.tgb.dialogInterface.DialogProcessorInt;
 import com.hstat.tgb.dialogInterface.ProcessorsList;
@@ -29,14 +29,19 @@ public class IncomeProcessor {
      * @param update
      */
     public void process(Update update){
+        // look if user is active or stored in the db
         if(!activeUsersHandler.isActive(update.getMessage().getChatId())){
             if(activeUsersHandler.askUser(update.getMessage().getChatId())) {
                 activeUsersHandler.add(update.getMessage().getChatId());
+                sort(update);
             } else {
-                processorsList.getAllProcessors().get(1).process(update);
+                processorsList.getAllProcessors().get(1).process(update);   // reg Processor
             }
         }
+        sort(update);
+    }
 
+    private void sort(Update update) {
         boolean found = false;
         if (update.getMessage().getText().startsWith("/")){ // is it a command
             commandProcessor.process(update);

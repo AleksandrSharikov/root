@@ -6,10 +6,12 @@ import java.util.List;
  * Set of questions for dialog
  */
 public class DialogQuestions {
-    private final List<String> questions = List.of(
-            "What meds did you have?",
-            "How  did you feel"
-    );
+    private final List<String> questions;
+
+    public DialogQuestions(List<String> questions) {
+        this.questions = questions;
+    }
+
 
     public String getQuestion(int i){
         if(i < 0){

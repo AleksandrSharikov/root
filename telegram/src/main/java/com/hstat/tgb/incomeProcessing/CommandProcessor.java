@@ -1,6 +1,6 @@
-package com.hstat.tgb.messagesProcessing;
+package com.hstat.tgb.incomeProcessing;
 
-import com.hstat.tgb.dialog.DialogProcessor;
+import com.hstat.tgb.survey.SurveyProcessor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -10,10 +10,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Service
 public class CommandProcessor {
 
-    private final DialogProcessor dialogProcessor;
+    private final SurveyProcessor surveyProcessor;
 
-    public CommandProcessor(DialogProcessor dialogProcessor) {
-        this.dialogProcessor = dialogProcessor;
+    public CommandProcessor(SurveyProcessor surveyProcessor) {
+        this.surveyProcessor = surveyProcessor;
     }
 
     /**
@@ -22,7 +22,7 @@ public class CommandProcessor {
      */
     public void process(Update update){
         if (update.getMessage().getText().trim().equalsIgnoreCase("/start_test")){
-            dialogProcessor.process(update);
+            surveyProcessor.process(update);
         }
     }
 }

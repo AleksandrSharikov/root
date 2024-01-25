@@ -1,4 +1,4 @@
-package com.hstat.tgb.dialog;
+package com.hstat.tgb.survey;
 
 import com.hstat.tgb.dialogInterface.DialogProcessorInt;
 import lombok.extern.slf4j.Slf4j;
@@ -16,22 +16,22 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class DialogProcessor implements DialogProcessorInt {
+public class SurveyProcessor implements DialogProcessorInt {
 
     private final AnswerMap answerMap;
     private final ApplicationContext applicationContext;
 
     //  map with runnables for the threads
-    private final Map<Long, Dialog> threadMap = new HashMap<>();
+    private final Map<Long, Survey> threadMap = new HashMap<>();
 
     //Creating a bean of Dialog
     @Lookup
-    private Dialog getDialog(long id){
-        return applicationContext.getBean(Dialog.class, id);
+    private Survey getDialog(long id){
+        return applicationContext.getBean(Survey.class, id);
     }
 
     @Autowired
-    public DialogProcessor(AnswerMap answerMap, ApplicationContext applicationContext) {
+    public SurveyProcessor(AnswerMap answerMap, ApplicationContext applicationContext) {
         this.answerMap = answerMap;
         this.applicationContext = applicationContext;
     }
@@ -41,14 +41,15 @@ public class DialogProcessor implements DialogProcessorInt {
      * the thread  from the map
      * @param update
      */
+    @Override
     public void process(Update update) {
         log.info("Update is in the processor");
         if (answerMap.mergeUpdate(update)) {
             log.info("New thread shall start");
-            Dialog dialog = getDialog(update.getMessage().getChatId());
-            Thread thread = new Thread(dialog,
+            Survey survey = getDialog(update.getMessage().getChatId());
+            Thread thread = new Thread(survey,
                     update.getMessage().getChatId().toString());
-            threadMap.put(update.getMessage().getChatId(), dialog);
+            threadMap.put(update.getMessage().getChatId(), survey);
             thread.start();
         } else {
             if(threadMap.get(update.getMessage().getChatId()).notifyThread()){
@@ -59,6 +60,7 @@ public class DialogProcessor implements DialogProcessorInt {
 
 
     // Check if there is thread with certain id im the map
+    @Override
     public boolean isInProcess(long id){
         return threadMap.containsKey(id);
     }

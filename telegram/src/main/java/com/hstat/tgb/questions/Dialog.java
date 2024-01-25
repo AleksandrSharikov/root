@@ -1,8 +1,9 @@
-package com.hstat.tgb.dialog;
+package com.hstat.tgb.questions;
 
+import com.hstat.tgb.dialogInterface.MessageMapHandler;
 import com.hstat.tgb.mailKafka.DialogSender;
 import com.hstat.tgb.models.DialogQuestions;
-import com.hstat.tgb.models.DialogResult;
+import com.hstat.tgb.survey.SurveyResult;
 import com.hstat.tgb.outcomeProcessor.OutcomeProcessor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,8 +16,8 @@ public class Dialog implements Runnable {
     private final Object lock;      // object for sync
     private final long chatId;
     private final DialogQuestions questions;
-    private final AnswerMap answerMap;      // Map of answers like queue
-    private final DialogResult result;
+    private final MessageMapHandler messageMap;      // Map of answers like queue
+    private final SurveyResult result;
     private final DialogSender dialogSender;
     private int questionNumber;
     private final int qq;
@@ -26,14 +27,14 @@ public class Dialog implements Runnable {
 
     public Dialog(long chatId,
                   DialogQuestions questions,
-                  AnswerMap answerMap,
+                  MessageMapHandler messageMap,
                   DialogSender dialogSender,
                   OutcomeProcessor outcomeProcessor)
     {
         this.chatId = chatId;
         this.questions = questions;
-        this.answerMap = answerMap;
-        this.result = new DialogResult(chatId);
+        this.messageMap = messageMap;
+        this.result = new SurveyResult(chatId);
         this.dialogSender = dialogSender;
         this.questionNumber = -1;
         this.qq = questions.getQuantity();

@@ -1,20 +1,22 @@
-package com.hstat.tgb.models;
+package com.hstat.tgb.survey;
 
 
 import com.hstat.dtoModels.StatSend;
+import com.hstat.tgb.dialogInterface.ResultCollector;
+
 import java.time.LocalDateTime;
 
 /**
  * Set of answers date and id from dialog
  */
-public class DialogResult {
+public class SurveyResult implements ResultCollector {
 
     private final long chatId;
     private LocalDateTime created;
     private String med;
     private int feel;
 
-    public DialogResult(long chatId){
+    public SurveyResult(long chatId){
         this.chatId = chatId;
     }
 

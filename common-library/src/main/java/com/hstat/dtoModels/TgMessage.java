@@ -1,4 +1,5 @@
 package com.hstat.dtoModels;
 
-public record TgMessage(long chatId, String message) {
-}
+public record TgMessage(long chatId,
+                        String message
+) implements DTO {}
