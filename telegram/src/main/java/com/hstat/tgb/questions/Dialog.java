@@ -1,6 +1,9 @@
 package com.hstat.tgb.questions;
 
+import com.hstat.dtoModels.DTO;
 import com.hstat.tgb.dialogInterface.MessageMapHandler;
+import com.hstat.tgb.dialogInterface.ResultCollector;
+import com.hstat.tgb.dialogInterface.ResultProcessor;
 import com.hstat.tgb.mailKafka.DialogSender;
 import com.hstat.tgb.models.DialogQuestions;
 import com.hstat.tgb.survey.SurveyResult;
@@ -11,14 +14,14 @@ import lombok.extern.slf4j.Slf4j;
  *  The class of runnable to create the thread for dialog
  */
 @Slf4j
-public class Dialog implements Runnable {
+public class Dialog<T extends DTO> implements Runnable {
 
     private final Object lock;      // object for sync
     private final long chatId;
     private final DialogQuestions questions;
     private final MessageMapHandler messageMap;      // Map of answers like queue
-    private final SurveyResult result;
-    private final DialogSender dialogSender;
+    private final ResultCollector<T> result;
+    private final ResultProcessor<T> resultProcessor;
     private int questionNumber;
     private final int qq;
     private final OutcomeProcessor outcomeProcessor;
@@ -28,14 +31,15 @@ public class Dialog implements Runnable {
     public Dialog(long chatId,
                   DialogQuestions questions,
                   MessageMapHandler messageMap,
-                  DialogSender dialogSender,
+                  ResultProcessor resultProcessor,
+                  ResultCollector result,
                   OutcomeProcessor outcomeProcessor)
     {
         this.chatId = chatId;
         this.questions = questions;
         this.messageMap = messageMap;
-        this.result = new SurveyResult(chatId);
-        this.dialogSender = dialogSender;
+        this.result = result;
+        this.resultProcessor = resultProcessor;
         this.questionNumber = -1;
         this.qq = questions.getQuantity();
         this.outcomeProcessor = outcomeProcessor;
@@ -50,13 +54,13 @@ public class Dialog implements Runnable {
             try {
             log.info("Question number: " + questionNumber);
         // process all records inn queue. Probably redundant. Can be changed to if()
-            while(!answerMap.getList(chatId).isEmpty()){
-                result.setRes(questionNumber++,answerMap.getList(chatId).poll());
+            if(messageMap.getMessage(chatId) != null){
+                result.setRes(questionNumber++,messageMap.getMessage(chatId));
                 if(questionNumber < qq) {
                     outcomeProcessor.sendMessage(chatId, questions.getQuestion(questionNumber));
                 } else {
                     outcomeProcessor.sendMessage(chatId, "Thank you, that's all");
-                    answerMap.closeId(chatId);
+                    messageMap.closeId(chatId);
                     log.info("Prepared result: " + result);
                     exit = true;
                     break;
@@ -70,11 +74,11 @@ public class Dialog implements Runnable {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (NumberFormatException e) {
-                answerMap.closeId(chatId);
+                messageMap.closeId(chatId);
                 outcomeProcessor.sendMessage(chatId, "Entrance error. Data reset");
             }
         }
-        dialogSender.send(result.toDto());
+        resultProcessor.process(result.toDto());
         log.info("Dialog for id:" + chatId + " finished");
     }
 

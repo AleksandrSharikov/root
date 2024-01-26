@@ -6,6 +6,6 @@ import java.time.LocalDate;
 public record UserCard(long userId,
                        long tdId,
                        String name,
-                       Spring password,
+                       String password,
                        LocalDate birthDay)
 implements DTO{}
