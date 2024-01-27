@@ -2,7 +2,7 @@ package com.hstat.user.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hstat.dtoModels.TgMessage;
+import com.hstat.common.dtoModels.TgMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;

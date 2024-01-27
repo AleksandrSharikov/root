@@ -2,7 +2,7 @@ package com.hstat.tgb.mailKafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hstat.dtoModels.TgMessage;
+import com.hstat.common.dtoModels.TgMessage;
 import com.hstat.tgb.outcomeProcessor.OutcomeProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

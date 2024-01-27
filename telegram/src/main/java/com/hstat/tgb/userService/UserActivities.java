@@ -2,10 +2,12 @@ package com.hstat.tgb.userService;
 
 
 import com.hstat.tgb.dialogInterface.ProcessorsList;
+import org.springframework.stereotype.Service;
 
 /**
  * Handler of users activities
  */
+@Service
 public class UserActivities {
 
     private final ProcessorsList processorsList;

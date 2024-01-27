@@ -1,7 +1,7 @@
 package com.hstat.tgb.survey;
 
 
-import com.hstat.dtoModels.StatSend;
+import com.hstat.common.dtoModels.StatSend;
 import com.hstat.tgb.dialogInterface.ResultCollector;
 
 import java.time.LocalDateTime;

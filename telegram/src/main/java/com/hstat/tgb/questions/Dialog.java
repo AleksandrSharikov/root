@@ -1,12 +1,10 @@
 package com.hstat.tgb.questions;
 
-import com.hstat.dtoModels.DTO;
+import com.hstat.common.dtoModels.DTO;
 import com.hstat.tgb.dialogInterface.MessageMapHandler;
 import com.hstat.tgb.dialogInterface.ResultCollector;
 import com.hstat.tgb.dialogInterface.ResultProcessor;
-import com.hstat.tgb.mailKafka.DialogSender;
 import com.hstat.tgb.models.DialogQuestions;
-import com.hstat.tgb.survey.SurveyResult;
 import com.hstat.tgb.outcomeProcessor.OutcomeProcessor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,8 +29,8 @@ public class Dialog<T extends DTO> implements Runnable {
     public Dialog(long chatId,
                   DialogQuestions questions,
                   MessageMapHandler messageMap,
-                  ResultProcessor resultProcessor,
-                  ResultCollector result,
+                  ResultProcessor<T> resultProcessor,
+                  ResultCollector<T> result,
                   OutcomeProcessor outcomeProcessor)
     {
         this.chatId = chatId;

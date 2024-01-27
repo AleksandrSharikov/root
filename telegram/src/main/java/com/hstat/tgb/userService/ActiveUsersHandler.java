@@ -1,7 +1,8 @@
 package com.hstat.tgb.userService;
 
-import com.hstat.CommonConstants;
+import com.hstat.common.CommonConstants;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class ActiveUsersHandler {
 
-    private final CommonConstants commonConstants;
+   // private final CommonConstants commonConstants;
     private final RestTemplate restTemplate;
 
     private final String url;
@@ -35,11 +36,11 @@ public class ActiveUsersHandler {
     private final int warnSize = 20;
     private LocalDateTime firstRecord = null;
 
-    public ActiveUsersHandler(CommonConstants commonConstants, RestTemplate restTemplate, UserActivities userActivities) {
-        this.commonConstants = commonConstants;
-        this.restTemplate = restTemplate;
+    public ActiveUsersHandler(/*CommonConstants commonConstants,*/ RestTemplateBuilder restTemplateBuilder, UserActivities userActivities) {
+    //    this.commonConstants = commonConstants;
+        this.restTemplate = restTemplateBuilder.build();
         this.userActivities = userActivities;
-        this.url = commonConstants.getUserUrl();
+        this.url = "http://localhost:803";//commonConstants.getUserUrl();
     }
 
 

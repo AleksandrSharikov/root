@@ -19,5 +19,8 @@ public class QuestionLists {
     public List<String> getDialog(){
         return new ArrayList<>(dialog);
     }
+    public List<String> getReg(){
+        return new ArrayList<>(reg);
+    }
 
 }

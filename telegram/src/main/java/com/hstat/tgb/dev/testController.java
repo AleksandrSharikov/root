@@ -1,6 +1,6 @@
 package com.hstat.tgb.dev;
 
-import com.hstat.dtoModels.StatSend;
+import com.hstat.common.dtoModels.StatSend;
 import com.hstat.tgb.kafka.KafkaSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

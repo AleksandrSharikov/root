@@ -1,6 +1,6 @@
 package com.hstat.tgb.mailKafka;
 
-import com.hstat.dtoModels.StatSend;
+import com.hstat.common.dtoModels.StatSend;
 import com.hstat.tgb.kafka.KafkaSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

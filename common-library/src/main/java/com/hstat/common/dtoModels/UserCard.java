@@ -1,6 +1,5 @@
-package com.hstat.dtoModels;
+package com.hstat.common.dtoModels;
 
-import javax.swing.*;
 import java.time.LocalDate;
 
 public record UserCard(long userId,

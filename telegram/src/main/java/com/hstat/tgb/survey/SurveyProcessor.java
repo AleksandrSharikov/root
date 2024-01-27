@@ -26,7 +26,7 @@ public class SurveyProcessor implements DialogProcessorInt {
 
     //Creating a bean of Dialog
     @Lookup
-    private Survey getDialog(long id){
+    private Survey getSurvey(long id){
         return applicationContext.getBean(Survey.class, id);
     }
 
@@ -46,7 +46,7 @@ public class SurveyProcessor implements DialogProcessorInt {
         log.info("Update is in the processor");
         if (answerMap.mergeUpdate(update)) {
             log.info("New thread shall start");
-            Survey survey = getDialog(update.getMessage().getChatId());
+            Survey survey = getSurvey(update.getMessage().getChatId());
             Thread thread = new Thread(survey,
                     update.getMessage().getChatId().toString());
             threadMap.put(update.getMessage().getChatId(), survey);

@@ -1,7 +1,8 @@
 package com.hstat.tgb.registration;
 
-import com.hstat.dtoModels.UserCard;
+import com.hstat.common.dtoModels.UserCard;
 import com.hstat.tgb.dialogInterface.ResultCollector;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 

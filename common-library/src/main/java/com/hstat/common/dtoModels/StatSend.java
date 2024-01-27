@@ -1,4 +1,4 @@
-package com.hstat.dtoModels;
+package com.hstat.common.dtoModels;
 
 import java.time.LocalDateTime;
 

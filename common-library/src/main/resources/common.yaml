@@ -1,5 +1,5 @@
 url:
-  base-url: http://localhost
+  base-url: "http://localhost"
   port:
     user: 8083
     tg: 8082

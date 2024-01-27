@@ -1,6 +1,6 @@
 package com.hstat.tgb.outcomeProcessor;
 
-import com.hstat.dtoModels.TgMessage;
+import com.hstat.common.dtoModels.TgMessage;
 import com.hstat.tgb.telegram.Bot;
 import org.springframework.stereotype.Service;
 
