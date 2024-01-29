@@ -22,7 +22,7 @@ public class AnswerMap implements MessageMapHandler {
     }
 
     @Override
-    public String getMessage(long id){ return inUse.get(id).poll();}
+    public String pollMessage(long id){ return inUse.get(id).poll();}
     // Close id and remove it from the map
     @Override
     public void closeId(long id){

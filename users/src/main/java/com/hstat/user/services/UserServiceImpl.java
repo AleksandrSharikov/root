@@ -2,8 +2,9 @@ package com.hstat.user.services;
 
 import com.hstat.user.model.User;
 import com.hstat.user.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
@@ -18,7 +19,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean tgPresent(Long tgId) {
-        return userRepository.findByTgId(tgId).isPresent();
+        boolean answer = userRepository.findByTgId(tgId).isPresent();
+        log.info(String.format("Looking for %d. Found = %b", tgId, answer));
+        return answer;
     }
 
 }

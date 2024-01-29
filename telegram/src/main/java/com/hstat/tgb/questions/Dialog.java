@@ -5,7 +5,7 @@ import com.hstat.tgb.dialogInterface.MessageMapHandler;
 import com.hstat.tgb.dialogInterface.ResultCollector;
 import com.hstat.tgb.dialogInterface.ResultProcessor;
 import com.hstat.tgb.models.DialogQuestions;
-import com.hstat.tgb.outcomeProcessor.OutcomeProcessor;
+import com.hstat.tgb.sendToTg.TgSender;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -22,7 +22,7 @@ public class Dialog<T extends DTO> implements Runnable {
     private final ResultProcessor<T> resultProcessor;
     private int questionNumber;
     private final int qq;
-    private final OutcomeProcessor outcomeProcessor;
+    private final TgSender tgSender;
     volatile boolean exit = false;
 
 
@@ -31,7 +31,7 @@ public class Dialog<T extends DTO> implements Runnable {
                   MessageMapHandler messageMap,
                   ResultProcessor<T> resultProcessor,
                   ResultCollector<T> result,
-                  OutcomeProcessor outcomeProcessor)
+                  TgSender tgSender)
     {
         this.chatId = chatId;
         this.questions = questions;
@@ -40,7 +40,7 @@ public class Dialog<T extends DTO> implements Runnable {
         this.resultProcessor = resultProcessor;
         this.questionNumber = -1;
         this.qq = questions.getQuantity();
-        this.outcomeProcessor = outcomeProcessor;
+        this.tgSender = tgSender;
         this.lock = new Object();
     }
 
@@ -51,18 +51,21 @@ public class Dialog<T extends DTO> implements Runnable {
         while(!exit){
             try {
             log.info("Question number: " + questionNumber);
-        // process all records inn queue. Probably redundant. Can be changed to if()
-            if(messageMap.getMessage(chatId) != null){
-                result.setRes(questionNumber++,messageMap.getMessage(chatId));
+            String message = messageMap.pollMessage(chatId);
+            if(message != null){
+                result.setRes(questionNumber++,message);
+
                 if(questionNumber < qq) {
-                    outcomeProcessor.sendMessage(chatId, questions.getQuestion(questionNumber));
+                    tgSender.sendMessage(chatId, questions.getQuestion(questionNumber));
                 } else {
-                    outcomeProcessor.sendMessage(chatId, "Thank you, that's all");
+                    tgSender.sendMessage(chatId, "Thank you, that's all");
                     messageMap.closeId(chatId);
                     log.info("Prepared result: " + result);
                     exit = true;
                     break;
                 }
+            } else {
+                log.warn(String.format("Message map entry have no value for id %d", chatId));
             }
             if(!exit){
                 synchronized (lock){
@@ -73,7 +76,7 @@ public class Dialog<T extends DTO> implements Runnable {
                 throw new RuntimeException(e);
             } catch (NumberFormatException e) {
                 messageMap.closeId(chatId);
-                outcomeProcessor.sendMessage(chatId, "Entrance error. Data reset");
+                tgSender.sendMessage(chatId, "Entrance error. Data reset");
             }
         }
         resultProcessor.process(result.toDto());

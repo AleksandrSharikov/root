@@ -14,7 +14,7 @@ public class RegMap implements MessageMapHandler {
 
     private final Map<Long, String> inReg = new ConcurrentHashMap<>();
     @Override
-    public String getMessage(long id){return  inReg.get(id);}
+    public String pollMessage(long id){return  inReg.remove(id);}
     @Override
     public void closeId(long id) {
     inReg.remove(id);

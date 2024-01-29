@@ -1,4 +1,4 @@
-package com.hstat.tgb.incomeProcessing;
+package com.hstat.tgb.botMessageProcessing;
 
 import com.hstat.tgb.dialogInterface.DialogProcessorInt;
 import com.hstat.tgb.dialogInterface.ProcessorsList;
@@ -36,9 +36,11 @@ public class IncomeProcessor {
                 sort(update);
             } else {
                 processorsList.getAllProcessors().get(1).process(update);   // reg Processor
+                activeUsersHandler.add(update.getMessage().getChatId());
             }
+        } else {
+            sort(update);
         }
-        sort(update);
     }
 
     private void sort(Update update) {

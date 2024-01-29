@@ -3,7 +3,7 @@ package com.hstat.tgb.mailKafka;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hstat.common.dtoModels.TgMessage;
-import com.hstat.tgb.outcomeProcessor.OutcomeProcessor;
+import com.hstat.tgb.botMessageProcessing.OutcomeProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -22,7 +22,7 @@ public class TgSendConsumer {
         this.outcomeProcessor = outcomeProcessor;
     }
 
-    @KafkaListener(topics = tgSendTopic)
+    @KafkaListener(id = "TgListener",topics = tgSendTopic)
     public void consumeMessage(String message) throws JsonProcessingException {
 
         TgMessage received = objectMapper.readValue(message, TgMessage.class);

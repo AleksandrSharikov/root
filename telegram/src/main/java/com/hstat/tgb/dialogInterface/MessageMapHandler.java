@@ -4,6 +4,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 public interface MessageMapHandler {
     void closeId(long userId);
-    String getMessage(long id);
+    String pollMessage(long id);
     boolean mergeUpdate(Update update);
 }
+

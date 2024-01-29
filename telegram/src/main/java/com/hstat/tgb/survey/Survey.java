@@ -2,7 +2,7 @@ package com.hstat.tgb.survey;
 
 import com.hstat.tgb.mailKafka.DialogSender;
 import com.hstat.tgb.models.DialogQuestions;
-import com.hstat.tgb.outcomeProcessor.OutcomeProcessor;
+import com.hstat.tgb.sendToTg.TgSender;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,7 +19,7 @@ public class Survey implements Runnable {
     private final DialogSender dialogSender;
     private int questionNumber;
     private final int qq;
-    private final OutcomeProcessor outcomeProcessor;
+    private final TgSender tgSender;
     volatile boolean exit = false;
 
 
@@ -27,7 +27,7 @@ public class Survey implements Runnable {
                   DialogQuestions questions,
                   AnswerMap answerMap,
                   DialogSender dialogSender,
-                  OutcomeProcessor outcomeProcessor)
+                  TgSender tgSender)
     {
         this.chatId = chatId;
         this.questions = questions;
@@ -36,7 +36,7 @@ public class Survey implements Runnable {
         this.dialogSender = dialogSender;
         this.questionNumber = -1;
         this.qq = questions.getQuantity();
-        this.outcomeProcessor = outcomeProcessor;
+        this.tgSender = tgSender;
         this.lock = new Object();
     }
 
@@ -51,9 +51,9 @@ public class Survey implements Runnable {
             while(!answerMap.getList(chatId).isEmpty()){
                 result.setRes(questionNumber++,answerMap.getList(chatId).poll());
                 if(questionNumber < qq) {
-                    outcomeProcessor.sendMessage(chatId, questions.getQuestion(questionNumber));
+                    tgSender.sendMessage(chatId, questions.getQuestion(questionNumber));
                 } else {
-                    outcomeProcessor.sendMessage(chatId, "Thank you, that's all");
+                    tgSender.sendMessage(chatId, "Thank you, that's all");
                     answerMap.closeId(chatId);
                     log.info("Prepared result: " + result);
                     exit = true;
@@ -69,7 +69,7 @@ public class Survey implements Runnable {
                 throw new RuntimeException(e);
             } catch (NumberFormatException e) {
                 answerMap.closeId(chatId);
-                outcomeProcessor.sendMessage(chatId, "Entrance error. Data reset");
+                tgSender.sendMessage(chatId, "Entrance error. Data reset");
             }
         }
         dialogSender.send(result.toDto());

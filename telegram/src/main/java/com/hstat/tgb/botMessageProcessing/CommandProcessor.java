@@ -1,4 +1,4 @@
-package com.hstat.tgb.incomeProcessing;
+package com.hstat.tgb.botMessageProcessing;
 
 import com.hstat.tgb.survey.SurveyProcessor;
 import org.springframework.stereotype.Service;

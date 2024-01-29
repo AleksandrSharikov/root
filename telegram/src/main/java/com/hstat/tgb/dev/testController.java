@@ -34,7 +34,7 @@ public class testController {
      @PostMapping("/kaf")
     public String test(@RequestBody StatSend statSend){
         System.out.println("Received statSend " + statSend);
-        return kafkaSender.sendMessage(tgStatTopic, statSend);
+        return kafkaSender.sendStatMessage(tgStatTopic, statSend);
     }
 
 

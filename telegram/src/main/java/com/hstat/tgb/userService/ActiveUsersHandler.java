@@ -40,7 +40,7 @@ public class ActiveUsersHandler {
     //    this.commonConstants = commonConstants;
         this.restTemplate = restTemplateBuilder.build();
         this.userActivities = userActivities;
-        this.url = "http://localhost:803";//commonConstants.getUserUrl();
+        this.url = "http://localhost:8083";//commonConstants.getUserUrl();
     }
 
 
@@ -60,7 +60,7 @@ public class ActiveUsersHandler {
     }
 
     public boolean askUser(long userId){
-        return Boolean.TRUE.equals(restTemplate.getForObject(url + "tg/check/" + userId, Boolean.class)) ;
+        return Boolean.TRUE.equals(restTemplate.getForObject(url + "/tg/check/" + userId, Boolean.class)) ;
     }
 
     public void remove(long chatId){

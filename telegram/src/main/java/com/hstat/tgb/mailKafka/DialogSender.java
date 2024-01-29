@@ -20,7 +20,7 @@ public class DialogSender {
     }
 
     public void send(StatSend stat){
-        kafkaSender.sendMessage(tgStatTopic, stat);
+        kafkaSender.sendStatMessage(tgStatTopic, stat);
         log.info(String.format("Statistic for id %d send", stat.catId()));
     }
 }
