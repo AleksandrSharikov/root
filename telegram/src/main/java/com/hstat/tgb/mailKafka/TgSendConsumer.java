@@ -22,7 +22,7 @@ public class TgSendConsumer {
         this.outcomeProcessor = outcomeProcessor;
     }
 
-    @KafkaListener(id = "TgListener",topics = tgSendTopic)
+    @KafkaListener(id = "TgListener", topics = tgSendTopic)
     public void consumeMessage(String message) throws JsonProcessingException {
 
         TgMessage received = objectMapper.readValue(message, TgMessage.class);

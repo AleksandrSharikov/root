@@ -1,7 +1,7 @@
 package com.hstat.tgb.config;
 
 import com.hstat.common.dtoModels.UserCard;
-import com.hstat.tgb.DialogPostProcessors.RegPostProcessor;
+import com.hstat.tgb.dialogPostProcessors.RegPostProcessor;
 import com.hstat.tgb.mailKafka.DialogSender;
 import com.hstat.tgb.questions.Dialog;
 import com.hstat.tgb.registration.RegCollector;

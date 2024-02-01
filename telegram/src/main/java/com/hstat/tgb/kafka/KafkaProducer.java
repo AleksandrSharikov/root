@@ -38,9 +38,25 @@ public class KafkaProducer {
     }
 
     @Bean
-    public NewTopic topic() {
+    public NewTopic topic1() {
         return TopicBuilder
                 .name("tg.stat")
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
+    @Bean
+    public NewTopic topic2() {
+        return TopicBuilder
+                .name("tg.userReg")
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
+    @Bean
+    public NewTopic topic3() {
+        return TopicBuilder
+                .name("tg.income")
                 .partitions(1)
                 .replicas(1)
                 .build();

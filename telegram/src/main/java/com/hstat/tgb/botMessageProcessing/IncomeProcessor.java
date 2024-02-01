@@ -1,9 +1,12 @@
 package com.hstat.tgb.botMessageProcessing;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hstat.tgb.dialogInterface.DialogProcessorInt;
 import com.hstat.tgb.dialogInterface.ProcessorsList;
 import com.hstat.tgb.userService.ActiveUsersHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -14,21 +17,30 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Slf4j
 @Service
 public class IncomeProcessor {
+    private final String tgIncome = "tg.income";
+    private final ObjectMapper objectMapper;
     private final CommandProcessor commandProcessor;
     private final ProcessorsList processorsList;
     private final ActiveUsersHandler activeUsersHandler;
 
-    public IncomeProcessor(CommandProcessor commandProcessor, ProcessorsList processorsList, ActiveUsersHandler activeUsersHandler) {
+    public IncomeProcessor(ObjectMapper objectMapper, CommandProcessor commandProcessor, ProcessorsList processorsList, ActiveUsersHandler activeUsersHandler) {
+        this.objectMapper = objectMapper;
         this.processorsList = processorsList;
         this.commandProcessor = commandProcessor;
         this.activeUsersHandler = activeUsersHandler;
+    }
+
+    @KafkaListener(id = "Processor", topics = tgIncome)
+    private void receive(String message) throws JsonProcessingException {
+        Update update = objectMapper.readValue(message, Update.class);
+        process(update);
     }
 
     /**
      * process the message
      * @param update
      */
-    public void process(Update update){
+    private void process(Update update){
         // look if user is active or stored in the db
         if(!activeUsersHandler.isActive(update.getMessage().getChatId())){
             if(activeUsersHandler.askUser(update.getMessage().getChatId())) {

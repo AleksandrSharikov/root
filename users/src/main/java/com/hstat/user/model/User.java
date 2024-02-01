@@ -1,5 +1,6 @@
 package com.hstat.user.model;
 
+import com.hstat.common.dtoModels.UserCard;
 import jakarta.persistence.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +24,24 @@ public class User {
     private String password;
     @Column(name = "birth_day")
     private LocalDate birthDay;
+
+    public User(UserCard  card){
+        this.userId = card.userId();
+        this.tgId = card.tdId();
+        this.name = card.name();
+        this.birthDay = card.birthDay();
+        this.password = card.password();
+    }
+
+    public User(){
+        this.userId = 0;
+        this.tgId = 0;
+        this.name = "";
+        this.birthDay = LocalDate.now();
+        this.password = "";
+    }
+
+
 
     public long getUserId() {
         return userId;

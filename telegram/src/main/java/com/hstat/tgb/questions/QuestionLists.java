@@ -12,6 +12,7 @@ public class QuestionLists {
             "How  did you feel"
     );
     private final List<String> reg = List.of(
+            "What is your name?",
            "When is your birthday? (DD.MM.YYYY)",
             "Enter some password"
     );

@@ -1,6 +1,6 @@
 package com.hstat.tgb.telegram;
 
-import com.hstat.tgb.botMessageProcessing.IncomeProcessor;
+import com.hstat.tgb.kafka.KafkaSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,12 +17,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Component
 public class Bot extends TelegramLongPollingBot {
     private final BotConfig botConfig;
-    private final IncomeProcessor incomeProcessor;
+    private final KafkaSender kafkaSender;
 
     @Autowired
-    public Bot(BotConfig botConfig, IncomeProcessor incomeProcessor) {
+    public Bot(BotConfig botConfig, KafkaSender kafkaSender) {
         this.botConfig = botConfig;
-        this.incomeProcessor = incomeProcessor;
+        this.kafkaSender = kafkaSender;
     }
 
     /**
@@ -32,7 +32,7 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         log.info("Received update: " + update.toString());
-        incomeProcessor.process(update);
+        kafkaSender.receiveToQueue(update);
     }
 
     /**

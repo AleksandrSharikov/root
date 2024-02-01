@@ -1,6 +1,7 @@
 package com.hstat.tgb.registration;
 
 import com.hstat.common.dtoModels.UserCard;
+import com.hstat.tgb.dev.MemoryMonitorService;
 import com.hstat.tgb.sendToTg.TgSender;
 import com.hstat.tgb.questions.Dialog;
 import com.hstat.tgb.dialogInterface.DialogProcessorInt;
@@ -19,16 +20,16 @@ public class RegProcessor implements DialogProcessorInt {
     private final Map<Long, Dialog<UserCard>> threadMap;
     private final RegMap regMap;
     private final TgSender tgSender;
-   // private final ApplicationContext applicationContext;
+    private final MemoryMonitorService memoryMonitorService;
     private final String regGrid =
-            "You are not registered yet.\nPlease rake a few minutes for the registration.\n\n What is your name?";
+            "You are not registered yet.\nPlease take a few minutes for the registration.";
 
 
 
-    public RegProcessor(TgSender tgSender, RegMap regMap) {
+    public RegProcessor(TgSender tgSender, RegMap regMap, MemoryMonitorService memoryMonitorService) {
         this.regMap = regMap;
         this.tgSender = tgSender;
-       // this.applicationContext = applicationContext;
+        this.memoryMonitorService = memoryMonitorService;
         this.threadMap = new HashMap<>();
     }
 
@@ -45,9 +46,11 @@ public class RegProcessor implements DialogProcessorInt {
         if (!regMap.mergeUpdate(update)){
             log.info(String.format("Starting new thread for id %d", update.getMessage().getChatId()));
             tgSender.sendMessage(update.getMessage().getChatId(), regGrid);
+           // memoryMonitorService.monitor();
             Dialog<UserCard> dialog = getRegDialog(update.getMessage().getChatId());
             Thread thread = new Thread(dialog,
                     update.getMessage().getChatId().toString());
+         //   memoryMonitorService.monitor();
             threadMap.put(update.getMessage().getChatId(), dialog);
             thread.start();
         } else {

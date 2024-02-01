@@ -38,7 +38,7 @@ public class Dialog<T extends DTO> implements Runnable {
         this.messageMap = messageMap;
         this.result = result;
         this.resultProcessor = resultProcessor;
-        this.questionNumber = -1;
+        this.questionNumber = 0;
         this.qq = questions.getQuantity();
         this.tgSender = tgSender;
         this.lock = new Object();
@@ -53,10 +53,10 @@ public class Dialog<T extends DTO> implements Runnable {
             log.info("Question number: " + questionNumber);
             String message = messageMap.pollMessage(chatId);
             if(message != null){
-                result.setRes(questionNumber++,message);
+                result.setRes(questionNumber,message);
 
                 if(questionNumber < qq) {
-                    tgSender.sendMessage(chatId, questions.getQuestion(questionNumber));
+                    tgSender.sendMessage(chatId, questions.getQuestion(questionNumber++));
                 } else {
                     tgSender.sendMessage(chatId, "Thank you, that's all");
                     messageMap.closeId(chatId);
@@ -91,7 +91,7 @@ public class Dialog<T extends DTO> implements Runnable {
     public boolean notifyThread() {
         synchronized (lock) {
             lock.notify();
-            return questionNumber == qq - 1;
+            return questionNumber == qq;
         }
     }
 }
