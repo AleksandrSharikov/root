@@ -2,6 +2,7 @@ package com.hstat.tgb.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hstat.common.CommonConstants;
 import com.hstat.common.dtoModels.DTO;
 import com.hstat.common.dtoModels.StatSend;
 import com.hstat.common.dtoModels.TgMessage;
@@ -19,11 +20,11 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 public class KafkaSender {
 
-        @Value("${topic.name}")
-        private String tgStatTopic;
-        private String tgSend = "tg.send";
-        private String userCardTopic = "tg.userReg";
-        private String tgIncome = "tg.income";
+      //  @Value("${topic.name}")
+        private String tgStatTopic = CommonConstants.TopicNames.TG_STAT.getName();
+        private String tgSend = CommonConstants.TopicNames.BOT_OUT.getName();
+        private String userCardTopic = CommonConstants.TopicNames.USER_CARD.getName();
+        private String tgIncome = CommonConstants.TopicNames.BOT_IN.getName();
 
         private final ObjectMapper objectMapper;
         private final KafkaTemplate<String, String> kafkaTemplate;

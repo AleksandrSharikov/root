@@ -1,5 +1,6 @@
 package com.hstat.tgb.kafka;
 
+import com.hstat.common.CommonConstants;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -40,7 +41,7 @@ public class KafkaProducer {
     @Bean
     public NewTopic topic1() {
         return TopicBuilder
-                .name("tg.stat")
+                .name(CommonConstants.TopicNames.TG_STAT.getName())
                 .partitions(1)
                 .replicas(1)
                 .build();
@@ -56,7 +57,7 @@ public class KafkaProducer {
     @Bean
     public NewTopic topic3() {
         return TopicBuilder
-                .name("tg.income")
+                .name(CommonConstants.TopicNames.BOT_IN.getName())
                 .partitions(1)
                 .replicas(1)
                 .build();

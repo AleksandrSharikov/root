@@ -26,8 +26,6 @@ public class ActiveUsersHandler {
     private final RestTemplate restTemplate;
 
     private final String url;
-
-
     private final UserActivities userActivities;
     private Map<Long, LocalDateTime> activeUsers = new ConcurrentHashMap<>();
 
@@ -36,11 +34,11 @@ public class ActiveUsersHandler {
     private final int warnSize = 20;
     private LocalDateTime firstRecord = null;
 
-    public ActiveUsersHandler(/*CommonConstants commonConstants,*/ RestTemplateBuilder restTemplateBuilder, UserActivities userActivities) {
+    public ActiveUsersHandler(/*CommonConstants commonConstants,*/ RestTemplateBuilder restTemplateBuilder,  UserActivities userActivities) {
     //    this.commonConstants = commonConstants;
         this.restTemplate = restTemplateBuilder.build();
         this.userActivities = userActivities;
-        this.url = "http://localhost:8083";//commonConstants.getUserUrl();
+        this.url = CommonConstants.ServicePort.USER.getPort();
     }
 
 
