@@ -1,5 +1,6 @@
 package com.hstat.tgb.registration;
 
+import com.hstat.common.dtoModels.TgMessage;
 import com.hstat.common.dtoModels.UserCard;
 import com.hstat.tgb.dev.MemoryMonitorService;
 import com.hstat.tgb.sendToTg.TgSender;
@@ -40,24 +41,24 @@ public class RegProcessor implements DialogProcessorInt {
 
 
     @Override
-    public void process(Update update) {
+    public void process(TgMessage message) {
 
-        log.info(String.format("Update \"%s\" is in reg processor", update.getMessage().getText()));
-        if (!regMap.mergeUpdate(update)){
-            log.info(String.format("Starting new thread for id %d", update.getMessage().getChatId()));
-            tgSender.sendMessage(update.getMessage().getChatId(), regGrid);
+        log.info(String.format("Update \"%s\" is in reg processor", message.message()));
+        if (!regMap.mergeUpdate(message)){
+            log.info(String.format("Starting new thread for id %d", message.chatId()));
+            tgSender.sendMessage(message.chatId(), regGrid);
            // memoryMonitorService.monitor();
-            Dialog<UserCard> dialog = getRegDialog(update.getMessage().getChatId());
+            Dialog<UserCard> dialog = getRegDialog(message.chatId());
             Thread thread = new Thread(dialog,
-                    update.getMessage().getChatId().toString());
+                    String.valueOf(message.chatId()));
          //   memoryMonitorService.monitor();
-            threadMap.put(update.getMessage().getChatId(), dialog);
+            threadMap.put(message.chatId(), dialog);
             thread.start();
         } else {
-            log.info(String.format("Proceeding with thread %d", update.getMessage().getChatId()));
-            if (threadMap.get(update.getMessage().getChatId()).notifyThread()){
-                log.info(String.format("Thread %d notified", update.getMessage().getChatId()));
-                threadMap.remove(update.getMessage().getChatId());
+            log.info(String.format("Proceeding with thread %d", message.chatId()));
+            if (threadMap.get(message.chatId()).notifyThread()){
+                log.info(String.format("Thread %d notified", message.chatId()));
+                threadMap.remove(message.chatId());
             }
         }
     }

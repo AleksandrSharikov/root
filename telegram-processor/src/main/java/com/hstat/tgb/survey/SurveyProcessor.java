@@ -1,5 +1,6 @@
 package com.hstat.tgb.survey;
 
+import com.hstat.common.dtoModels.TgMessage;
 import com.hstat.tgb.dialogInterface.DialogProcessorInt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,21 +40,21 @@ public class SurveyProcessor implements DialogProcessorInt {
     /**
      * If chatId is new, create a new thread for it, else notify existing one, if it is last answer, remove
      * the thread  from the map
-     * @param update
+     * @param message
      */
     @Override
-    public void process(Update update) {
+    public void process(TgMessage message) {
         log.info("Update is in the processor");
-        if (answerMap.mergeUpdate(update)) {
+        if (answerMap.mergeUpdate(message)) {
             log.info("New thread shall start");
-            Survey survey = getSurvey(update.getMessage().getChatId());
+            Survey survey = getSurvey(message.chatId());
             Thread thread = new Thread(survey,
-                    update.getMessage().getChatId().toString());
-            threadMap.put(update.getMessage().getChatId(), survey);
+                    String.valueOf(message.chatId()));
+            threadMap.put(message.chatId(), survey);
             thread.start();
         } else {
-            if(threadMap.get(update.getMessage().getChatId()).notifyThread()){
-                threadMap.remove(update.getMessage().getChatId());
+            if(threadMap.get(message.chatId()).notifyThread()){
+                threadMap.remove(message.chatId());
             }
         }
     }

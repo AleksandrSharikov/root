@@ -1,5 +1,6 @@
 package com.hstat.tgb.survey;
 
+import com.hstat.common.dtoModels.TgMessage;
 import com.hstat.tgb.dialogInterface.MessageMapHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,14 +32,14 @@ public class AnswerMap implements MessageMapHandler {
 
     // Merge new update to the map. Returns true if it is new id in the map, and false if id already existed
     @Override
-    public boolean mergeUpdate(Update update){
-        if(inUse.containsKey(update.getMessage().getChatId())){
-            inUse.get(update.getMessage().getChatId()).push(update.getMessage().getText());
+    public boolean mergeUpdate(TgMessage  message){
+        if(inUse.containsKey(message.chatId())){
+            inUse.get(message.chatId()).push(message.message());
             log.info("Map record updated");
             return false;
         } else {
             log.info("Added the new record to map");
-            inUse.put(update.getMessage().getChatId(), new LinkedList<>(List.of(update.getMessage().getText())));
+            inUse.put(message.chatId(), new LinkedList<>(List.of(message.message())));
             return true;
         }
     }

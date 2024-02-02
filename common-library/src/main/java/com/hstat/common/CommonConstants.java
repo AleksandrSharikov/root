@@ -23,7 +23,7 @@ public class CommonConstants{
 
     // Kafka topics names
     public enum TopicNames{
-        BOT_IN("tg.send"),
+        BOT_IN("tg.income"),
         BOT_OUT("tg.send"),
         USER_CARD("tg.userReg"),
         TG_STAT("tg.stat");

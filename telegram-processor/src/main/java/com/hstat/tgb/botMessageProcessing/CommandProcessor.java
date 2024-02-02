@@ -1,5 +1,6 @@
 package com.hstat.tgb.botMessageProcessing;
 
+import com.hstat.common.dtoModels.TgMessage;
 import com.hstat.tgb.survey.SurveyProcessor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -18,11 +19,11 @@ public class CommandProcessor {
 
     /**
      * perform acts required by different commands
-     * @param update
+     * @param message
      */
-    public void process(Update update){
-        if (update.getMessage().getText().trim().equalsIgnoreCase("/start_test")){
-            surveyProcessor.process(update);
+    public void process(TgMessage message){
+        if (message.message().trim().equalsIgnoreCase("/start_test")){
+            surveyProcessor.process(message);
         }
     }
 }

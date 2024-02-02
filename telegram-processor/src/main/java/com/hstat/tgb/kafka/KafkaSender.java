@@ -41,6 +41,7 @@ public class KafkaSender {
     public void sendKafkaTg(TgMessage message) {
             sendKafka (tgSend, message);
     }
+    public void receiveToQueue(TgMessage message) {sendKafka(tgIncome, message);}
     public void sendKafkaUserCard(UserCard userCard) {sendKafka(userCardTopic, userCard);}
 
 
@@ -57,7 +58,7 @@ public class KafkaSender {
 
         return "message sent";
     }
-    public String receiveToQueue(Update update){
+/*   public String receiveToQueue(Update update){
         try {
             String toSend = objectMapper.writeValueAsString(update);
             kafkaTemplate.send(tgIncome, toSend);
@@ -67,5 +68,5 @@ public class KafkaSender {
             return "Kafka sender threw Json Processing Exception";
         }
         return "message sent";
-    }
+    }*/
 }

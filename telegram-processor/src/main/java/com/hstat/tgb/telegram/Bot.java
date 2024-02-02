@@ -1,5 +1,6 @@
 package com.hstat.tgb.telegram;
 
+import com.hstat.common.dtoModels.TgMessage;
 import com.hstat.tgb.kafka.KafkaSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,9 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         log.info("Received update: " + update.toString());
-        kafkaSender.receiveToQueue(update);
+        if(update.getMessage().hasText()) {
+            kafkaSender.receiveToQueue(new TgMessage(update.getMessage().getChatId(), update.getMessage().getText()));
+        }
     }
 
     /**

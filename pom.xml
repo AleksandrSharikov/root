@@ -16,7 +16,7 @@
 	<description>Demo project for Spring Boot</description>
     <modules>
         <module>stat</module>
-		<module>telegram</module>
+		<module>telegram-processor</module>
 		<module>users</module>
         <module>common-library</module>
     </modules>

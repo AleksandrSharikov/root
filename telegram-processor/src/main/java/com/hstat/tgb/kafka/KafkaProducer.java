@@ -62,4 +62,12 @@ public class KafkaProducer {
                 .replicas(1)
                 .build();
     }
+    @Bean
+    public NewTopic topic4() {
+        return TopicBuilder
+                .name(CommonConstants.TopicNames.BOT_OUT.getName())
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
 }

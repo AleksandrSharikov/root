@@ -1,5 +1,6 @@
 package com.hstat.tgb.registration;
 
+import com.hstat.common.dtoModels.TgMessage;
 import com.hstat.tgb.dialogInterface.MessageMapHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,13 +26,13 @@ public class RegMap implements MessageMapHandler {
     inReg.remove(id);
     }
     @Override
-    public boolean mergeUpdate(Update update){
-        boolean was = inReg.containsKey(update.getMessage().getChatId());
+    public boolean mergeUpdate(TgMessage message){
+        boolean was = inReg.containsKey(message.chatId());
             log.info(String.format("Merging update %s to map\n%d was in the map = %b",
-                    update.getMessage().getText(), update.getMessage().getChatId(), was));
+                    message.message(), message.chatId(), was));
             inReg.put(
-                    update.getMessage().getChatId(),
-                    update.getMessage().getText());
+                   message.chatId(),
+                    message.message());
           //  {log.warn(String.format("Record for id %d overwritten before processing", update.getMessage().getChatId()));}
 
         return was;
