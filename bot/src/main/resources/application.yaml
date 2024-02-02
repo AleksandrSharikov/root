@@ -1,0 +1,6 @@
+bot:
+  name: h_stat
+
+spring:
+  config:
+    import: login.properties

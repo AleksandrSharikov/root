@@ -1,9 +1,9 @@
-package com.hstat.tgb.mailKafka;
+package com.bot.kafka;
 
+import com.bot.processor.OutcomeProcessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hstat.common.dtoModels.TgMessage;
-import com.hstat.tgb.botMessageProcessing.OutcomeProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class TgSendConsumer {
+public class KafkaReceiver {
 
     private static final String tgSendTopic = "tg.send";
     private final ObjectMapper objectMapper;
     private final OutcomeProcessor outcomeProcessor;
     @Autowired
-    public TgSendConsumer(ObjectMapper objectMapper, OutcomeProcessor outcomeProcessor) {
+    public KafkaReceiver(ObjectMapper objectMapper, OutcomeProcessor outcomeProcessor) {
         this.objectMapper = objectMapper;
         this.outcomeProcessor = outcomeProcessor;
     }

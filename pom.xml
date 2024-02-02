@@ -19,7 +19,8 @@
 		<module>telegram-processor</module>
 		<module>users</module>
         <module>common-library</module>
-    </modules>
+		<module>bot</module>
+	</modules>
     <properties>
 		<java.version>17</java.version>
 	</properties>

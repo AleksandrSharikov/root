@@ -1,7 +1,7 @@
-package com.hstat.tgb.telegram;
+package com.bot.telegram;
 
+import com.bot.kafka.KafkaSender;
 import com.hstat.common.dtoModels.TgMessage;
-import com.hstat.tgb.kafka.KafkaSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

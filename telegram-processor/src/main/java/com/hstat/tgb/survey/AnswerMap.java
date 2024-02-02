@@ -4,7 +4,6 @@ import com.hstat.common.dtoModels.TgMessage;
 import com.hstat.tgb.dialogInterface.MessageMapHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 

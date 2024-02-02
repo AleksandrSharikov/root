@@ -1,4 +1,4 @@
-package com.hstat.tgb.kafka;
+package com.bot.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,9 +19,6 @@ import org.springframework.stereotype.Component;
 public class KafkaSender {
 
       //  @Value("${topic.name}")
-        private String tgStatTopic = CommonConstants.TopicNames.TG_STAT.getName();
-        private String tgSend = CommonConstants.TopicNames.BOT_OUT.getName();
-        private String userCardTopic = CommonConstants.TopicNames.USER_CARD.getName();
         private String tgIncome = CommonConstants.TopicNames.BOT_IN.getName();
 
         private final ObjectMapper objectMapper;
@@ -33,14 +30,7 @@ public class KafkaSender {
             this.objectMapper = objectMapper;
         }
 
-    public String sendStatMessage(String topicName, StatSend statSend) {
-            return sendKafka (topicName, statSend);
-    }
-    public void sendKafkaTg(TgMessage message) {
-            sendKafka (tgSend, message);
-    }
     public void receiveToQueue(TgMessage message) {sendKafka(tgIncome, message);}
-    public void sendKafkaUserCard(UserCard userCard) {sendKafka(userCardTopic, userCard);}
 
 
 

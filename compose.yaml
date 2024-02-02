@@ -35,6 +35,10 @@ services:
       - POSTGRES_DB=postgres
     ports:
       - 5432:5432
+  bot:
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
   stat:
     build:
       context: ./stat
@@ -43,7 +47,7 @@ services:
       - postgres
   tgb:
     build:
-      context: ./telegram
+      context: ./telegram-processor
       dockerfile: Dockerfile
   user:
     build:
