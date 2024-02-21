@@ -16,13 +16,13 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/dev")
-public class testController {
+public class TestController {
 
     @Value("${topic.name}")
     private String tgStatTopic;
     private final KafkaSender kafkaSender;
     @Autowired
-    public testController(KafkaSender kafkaSender) {
+    public TestController(KafkaSender kafkaSender) {
         this.kafkaSender = kafkaSender;
     }
 

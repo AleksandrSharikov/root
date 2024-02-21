@@ -30,7 +30,7 @@ public class IncomeProcessor {
         this.activeUsersHandler = activeUsersHandler;
     }
 
-    @KafkaListener(id = "Processor", topics = tgIncome)
+    @KafkaListener(id = "Processor", topics = tgIncome, groupId = "TGBListener")
     private void receive(String message) throws JsonProcessingException {
         TgMessage tgMessage = objectMapper.readValue(message, TgMessage.class);
         log.info(String.format("Received message %s from tg Id %d", tgMessage.message(), tgMessage.chatId()));

@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 @Service
-public class ActiveUsersHandler {
+public class ActiveUsersHandlerMap implements ActiveUsersHandler {
 
    // private final CommonConstants commonConstants;
     private final RestTemplate restTemplate;
@@ -34,7 +34,7 @@ public class ActiveUsersHandler {
     private final int warnSize = 20;
     private LocalDateTime firstRecord = null;
 
-    public ActiveUsersHandler(/*CommonConstants commonConstants,*/ RestTemplateBuilder restTemplateBuilder,  UserActivities userActivities) {
+    public ActiveUsersHandlerMap(/*CommonConstants commonConstants,*/ RestTemplateBuilder restTemplateBuilder, UserActivities userActivities) {
     //    this.commonConstants = commonConstants;
         this.restTemplate = restTemplateBuilder.build();
         this.userActivities = userActivities;
@@ -42,6 +42,7 @@ public class ActiveUsersHandler {
     }
 
 
+    @Override
     public void add(long chatId){
         log.info(String.format("Ad used %d to active", chatId));
         activeUsers.put(chatId, LocalDateTime.now());
@@ -52,15 +53,18 @@ public class ActiveUsersHandler {
         }
     }
 
+    @Override
     public boolean isActive(long chatId){
         LocalDateTime act = activeUsers.replace(chatId, LocalDateTime.now());
         return act != null;
     }
 
+    @Override
     public boolean askUser(long userId){
         return Boolean.TRUE.equals(restTemplate.getForObject(url + "/tg/check/" + userId, Boolean.class)) ;
     }
 
+    @Override
     public void remove(long chatId){
         activeUsers.remove(chatId);
         log.info(String.format("Remove user %d from active", chatId));

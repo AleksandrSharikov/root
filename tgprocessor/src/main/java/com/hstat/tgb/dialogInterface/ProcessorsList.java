@@ -13,21 +13,15 @@ import java.util.List;
 
 @Service
 public class ProcessorsList {
-    private final AnswerMap answerMap;
-    private final RegMap regMap;
-    private final SurveyProcessor surveyProcessor;
-    private final RegProcessor regProcessor;
+
 
     private final List<MessageMapHandler> allMaps;
     private final List<DialogProcessorInt> allProcessors;
 
-    public ProcessorsList(AnswerMap answerMap, RegMap regMap, SurveyProcessor surveyProcessor, RegProcessor regProcessor) {
-        this.answerMap = answerMap;
-        this.regMap = regMap;
-        this.surveyProcessor = surveyProcessor;
-        this.regProcessor = regProcessor;
-        this.allMaps = List.of(answerMap, regMap);
-        this.allProcessors = List.of(surveyProcessor, regProcessor);
+
+    public ProcessorsList(List<MessageMapHandler> allMaps, List<DialogProcessorInt> allProcessors) {
+        this.allMaps = allMaps;
+        this.allProcessors = allProcessors;
     }
 
     public List<MessageMapHandler> getAllMaps() {

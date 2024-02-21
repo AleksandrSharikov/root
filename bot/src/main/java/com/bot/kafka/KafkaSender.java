@@ -19,7 +19,8 @@ import org.springframework.stereotype.Component;
 public class KafkaSender {
 
       //  @Value("${topic.name}")
-        private String tgIncome = CommonConstants.TopicNames.BOT_IN.getName();
+        private final String tgIncome = CommonConstants.TopicNames.BOT_IN.getName();
+        private final String tgOutcome = CommonConstants.TopicNames.BOT_OUT.getName();
 
         private final ObjectMapper objectMapper;
         private final KafkaTemplate<String, String> kafkaTemplate;
@@ -31,6 +32,7 @@ public class KafkaSender {
         }
 
     public void receiveToQueue(TgMessage message) {sendKafka(tgIncome, message);}
+    public void toOutcomeQueue(TgMessage message) {sendKafka(tgOutcome, message);}
 
 
 
@@ -46,15 +48,5 @@ public class KafkaSender {
 
         return "message sent";
     }
-/*   public String receiveToQueue(Update update){
-        try {
-            String toSend = objectMapper.writeValueAsString(update);
-            kafkaTemplate.send(tgIncome, toSend);
-        }
-        catch (JsonProcessingException e){
-            System.out.println("Kafka sender threw Json Processing Exception");
-            return "Kafka sender threw Json Processing Exception";
-        }
-        return "message sent";
-    }*/
+
 }

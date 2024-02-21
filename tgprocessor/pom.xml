@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>telegram-processor</artifactId>
+    <artifactId>tgprocessor</artifactId>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
@@ -21,6 +21,19 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
        </dependency>
+
+
+
+
+
+        <dependency>
+            <groupId>com.hstat</groupId>
+            <artifactId>common-library</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
+
+
 
 </project>

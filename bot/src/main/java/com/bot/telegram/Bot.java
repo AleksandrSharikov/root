@@ -35,6 +35,10 @@ public class Bot extends TelegramLongPollingBot {
         log.info("Received update: " + update.toString());
         if(update.getMessage().hasText()) {
             kafkaSender.receiveToQueue(new TgMessage(update.getMessage().getChatId(), update.getMessage().getText()));
+            if(update.getMessage().getText().equals("/self_test")){
+                sendMessage(update.getMessage().getChatId(), "Bot receive the message and send it immediately");
+                kafkaSender.toOutcomeQueue(new TgMessage(update.getMessage().getChatId(), "Bot set this message to the Kafka queue and sand from it"));
+            }
         }
     }
 

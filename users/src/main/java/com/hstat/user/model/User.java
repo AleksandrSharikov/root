@@ -27,7 +27,7 @@ public class User {
 
     public User(UserCard  card){
         this.userId = card.userId();
-        this.tgId = card.tdId();
+        this.tgId = card.tgId();
         this.name = card.name();
         this.birthDay = card.birthDay();
         this.password = card.password();
