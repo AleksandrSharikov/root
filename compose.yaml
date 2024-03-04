@@ -5,6 +5,7 @@ services:
       - "2181:2181"
   kafka:
     image: wurstmeister/kafka
+    container_name: Kafka
     ports:
       - "9092:9092"
     environment:
@@ -29,6 +30,7 @@ services:
       - "kafka"
   postgres:
     image: postgres
+    container_name: postgres
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
@@ -36,14 +38,13 @@ services:
     ports:
       - 5432:5432
   redis:
-    image: redis:latest
+    image: redis:7.2.4
+    hostname: redis
+    container_name: redis
     ports:
-      - "6379:6379"
-  redisinsight:
-    image: redislabs/redisinsight:latest
-    ports:
-      - "8001:8001"
+      - 6379:6379
   bot:
+    container_name: BOT
     build:
       context: ./bot
       dockerfile: Dockerfile
@@ -56,6 +57,7 @@ services:
     build:
       context: ./stat
       dockerfile: Dockerfile
+    container_name: stat
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:29092"
       SPRING_KAFKA_CONSUMER_GROUP_ID: "StatListener"
@@ -69,9 +71,12 @@ services:
     build:
       context: ./tgprocessor
       dockerfile: Dockerfile
+    container_name: TGB
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:29092"
       SPRING_KAFKA_CONSUMER_GROUP_ID: "TGBListener"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
     depends_on:
       - kafka
       - redis
@@ -79,6 +84,7 @@ services:
     build:
       context: ./users
       dockerfile: Dockerfile
+    container_name: user-service
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:29092"
       SPRING_KAFKA_CONSUMER_GROUP_ID: "UserListener"

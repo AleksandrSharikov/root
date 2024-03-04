@@ -1,0 +1,4 @@
+spring:
+  kafka:
+    consumer:
+      group-id: group-1

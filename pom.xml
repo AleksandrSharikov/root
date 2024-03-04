@@ -20,6 +20,7 @@
 		<module>users</module>
         <module>common-library</module>
 		<module>bot</module>
+		<module>stat_kt</module>
 	</modules>
     <properties>
 		<java.version>17</java.version>

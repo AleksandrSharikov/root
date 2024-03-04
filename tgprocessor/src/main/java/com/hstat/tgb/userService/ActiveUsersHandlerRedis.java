@@ -18,7 +18,6 @@ public class ActiveUsersHandlerRedis implements ActiveUsersHandler {
     private final RestTemplate restTemplate;
     private final String url;
 
-
     public ActiveUsersHandlerRedis(RedisTemplate<Long, Object> redisTemplate, RestTemplateBuilder restTemplateBuilder) {
         this.redisTemplate = redisTemplate;
         this.restTemplate = restTemplateBuilder.build();

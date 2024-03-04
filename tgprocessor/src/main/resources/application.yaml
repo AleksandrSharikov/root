@@ -7,4 +7,8 @@ topic:
 bot:
   name: h_stat
 
-
+spring:
+  data:
+    redis:
+      host: redis
+      port: 6379

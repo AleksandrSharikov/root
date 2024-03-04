@@ -9,7 +9,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class RedisConfig {
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
-        return new JedisConnectionFactory();
+     //   RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration("redis", 6379);
+        return new JedisConnectionFactory();//configuration);
     }
 
     @Bean
